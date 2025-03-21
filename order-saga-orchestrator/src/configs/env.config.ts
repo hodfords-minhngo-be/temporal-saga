@@ -18,7 +18,7 @@ export const envConfig = {
     SECRET: process.env.JWT_SECRET || 'secret',
     EXPIRES_IN: process.env.JWT_EXPIRES_IN || '1d',
   },
-  YOUTUBE: {
-    API_KEY: process.env.YOUTUBE_API_KEY,
+  MICROSERVICES: {
+    ORDER_SERVICE_URL: process.env.MICROSERVICES_ORDER_SERVICE_URL,
   },
 };

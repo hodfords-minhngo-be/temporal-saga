@@ -1,21 +1,15 @@
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
+import { ThrottlerModule } from '@nestjs/throttler';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { OrderModule } from '~domains/orders/order.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { dataSourceOptions } from './configs/database.config';
-import { UserModule } from './domains/users/user.module';
-import { AuthModule } from './domains/auth/auth.module';
-import { VideoModule } from '~domains/videos/video.module';
-import { SocketModule } from '~sockets/socket.module';
-import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(dataSourceOptions),
-    UserModule,
-    AuthModule,
-    VideoModule,
-    SocketModule,
     ThrottlerModule.forRoot({
       throttlers: [
         {
@@ -24,6 +18,8 @@ import { ThrottlerModule } from '@nestjs/throttler';
         },
       ],
     }),
+    HttpModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService],
