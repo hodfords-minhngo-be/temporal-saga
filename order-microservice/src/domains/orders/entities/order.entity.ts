@@ -21,6 +21,9 @@ export enum ShippingStatus {
 
 @Entity('orders')
 export class OrderEntity extends BaseEntity {
+  @Column({ type: 'varchar', length: 255, name: 'transaction_id' })
+  transactionId: string;
+
   @Column({ type: 'varchar', length: 255, name: 'customer_id' })
   customerId: string;
 
