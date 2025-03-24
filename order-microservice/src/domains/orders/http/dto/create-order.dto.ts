@@ -12,13 +12,4 @@ export class CreateOrderDto {
 
   @IsInt()
   quantity: number;
-
-  @IsString()
-  status: string;
-
-  @IsString()
-  paymentStatus: string;
-
-  @IsString()
-  shippingStatus: string;
 }

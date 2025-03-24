@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { envConfig } from '~configs/env.config';
+import { CreateOrderInput } from '~domains/orders/types/order.type';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class OrderMicroservice {
@@ -8,16 +10,20 @@ export class OrderMicroservice {
 
   constructor(private httpService: HttpService) {}
 
-  async createOrder(transactionId: string, order: any) {
-    return this.httpService.post(`${this.orderServiceUrl}/orders`, {
-      transactionId,
-      order,
-    });
+  async createOrder(orderInput: CreateOrderInput) {
+    const order = await firstValueFrom(
+      this.httpService.post(`${this.orderServiceUrl}/orders`, {
+        ...orderInput,
+      }),
+    );
+    return order.data;
   }
 
   async reverseOrder(transactionId: string) {
-    return this.httpService.post(`${this.orderServiceUrl}/orders/reverse`, {
-      transactionId,
-    });
+    return await firstValueFrom(
+      this.httpService.post(`${this.orderServiceUrl}/orders/reverse`, {
+        transactionId,
+      }),
+    );
   }
 }

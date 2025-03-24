@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { OrderModule } from '~domains/orders/order.module';
+import { TemporalModule } from '~domains/temporal/temporal.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { dataSourceOptions } from './configs/database.config';
@@ -20,6 +21,7 @@ import { dataSourceOptions } from './configs/database.config';
     }),
     HttpModule,
     OrderModule,
+    TemporalModule,
   ],
   controllers: [AppController],
   providers: [AppService],

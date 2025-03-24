@@ -38,6 +38,11 @@ export class CreateOrdersTable1742541131477 implements MigrationInterface {
             length: '255',
           },
           {
+            name: 'shipping_status',
+            type: 'varchar',
+            length: '255',
+          },
+          {
             name: 'quantity',
             type: 'int',
           },
