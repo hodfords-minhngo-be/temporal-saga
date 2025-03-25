@@ -4,7 +4,7 @@ import { CreateOrderInput } from '~domains/orders/types/order.type';
 
 const { createOrder, reverseOrder } = proxyActivities<OrderActivityInterface>({
   startToCloseTimeout: '1m',
-  taskQueue: 'order-activity',
+  scheduleToCloseTimeout: '1m',
 });
 
 export async function placeOrderWorkflow(
@@ -16,7 +16,8 @@ export async function placeOrderWorkflow(
     compensations.push({
       fn: () => reverseOrder(orderInput.transactionId),
     });
-    return createOrder(orderInput);
+    const order = await createOrder(orderInput);
+    return order;
   } catch (err) {
     console.error('Failed to place order:', err);
     for (const compensation of compensations) {

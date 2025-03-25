@@ -19,15 +19,15 @@ export class OrderController {
       quantity: 3,
     };
 
-    console.log('Placing order:', input);
     const handle = await this.temporalService
-      .getClient()
+      .client
       .workflow.start(placeOrderWorkflow, {
-        taskQueue: 'test-activity',
-        workflowId: `place-order`,
+        taskQueue: 'order-saga',
+        workflowId: `order-${transactionId}`,
         args: [input],
       });
 
+    console.log('Workflow started:', handle.workflowId);
     const result = await handle.result();
     console.log('Workflow started:', result);
     return 'Order placed';

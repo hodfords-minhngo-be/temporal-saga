@@ -3,14 +3,14 @@ import { Client, Connection } from '@temporalio/client';
 
 @Injectable()
 export class TemporalService implements OnApplicationBootstrap {
-  private client: Client;
+  private temporalClient: Client;
 
   async onApplicationBootstrap() {
     const connection = await Connection.connect();
-    this.client = new Client({ connection });
+    this.temporalClient = new Client({ connection });
   }
 
-  getClient(): Client {
-    return this.client;
+  get client() {
+    return this.temporalClient;
   }
 }

@@ -21,7 +21,7 @@ export class OrderMicroservice {
 
   async reverseOrder(transactionId: string) {
     return await firstValueFrom(
-      this.httpService.post(`${this.orderServiceUrl}/orders/reverse`, {
+      this.httpService.post(`${this.orderServiceUrl}/orders/reverse-not-found`, {
         transactionId,
       }),
     );
