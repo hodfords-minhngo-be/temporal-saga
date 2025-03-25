@@ -13,7 +13,7 @@ async function bootstrap() {
     credentials: true,
   });
   app.useGlobalPipes(new ValidationPipe());
-  app.set('trust proxy', 'loopback'); // Trust requests from the loopback address
+  app.enableShutdownHooks();
 
   await app.listen(process.env.APP_PORT || 3000, () => {
     console.log(`Application is running on: ${process.env.APP_PORT || 3000}`);

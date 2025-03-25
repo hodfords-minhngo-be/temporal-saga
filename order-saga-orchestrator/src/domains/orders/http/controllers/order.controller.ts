@@ -1,12 +1,15 @@
 import { Controller, Post } from '@nestjs/common';
+import { Client } from '@temporalio/client';
 import { randomUUID } from 'crypto';
+import { placeOrderWorkflow } from '~domains/orders/saga/workflows/place-order/place-order.workflow';
 import { CreateOrderInput } from '~domains/orders/types/order.type';
-import { TemporalService } from '~domains/temporal/services/temporal.service';
-import { placeOrderWorkflow } from '../../saga/workflows/place-order.workflow';
+import { InjectTemporalClient } from '~domains/temporal/decorators/inject-temporal.decorator';
 
 @Controller()
 export class OrderController {
-  constructor(private temporalService: TemporalService) {}
+  constructor(
+    @InjectTemporalClient() private readonly temporalClient: Client,
+  ) {}
 
   @Post('orders')
   async placeOrder() {
@@ -19,13 +22,14 @@ export class OrderController {
       quantity: 3,
     };
 
-    const handle = await this.temporalService
-      .client
-      .workflow.start(placeOrderWorkflow, {
+    const handle = await this.temporalClient.workflow.start(
+      placeOrderWorkflow,
+      {
         taskQueue: 'order-saga',
         workflowId: `order-${transactionId}`,
         args: [input],
-      });
+      },
+    );
 
     console.log('Workflow started:', handle.workflowId);
     const result = await handle.result();

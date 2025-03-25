@@ -1,6 +1,6 @@
 import { proxyActivities } from '@temporalio/workflow';
-import { OrderActivityInterface } from '../activities/order.activity';
 import { CreateOrderInput } from '~domains/orders/types/order.type';
+import { OrderActivityInterface } from './activities/place-order.activity';
 
 const { createOrder, reverseOrder } = proxyActivities<OrderActivityInterface>({
   startToCloseTimeout: '1m',
